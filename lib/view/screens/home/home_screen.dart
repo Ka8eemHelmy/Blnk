@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:blnk_project/view/components/widgets/elevated_button_custom.dart';
 import 'package:blnk_project/view/components/widgets/text_form_field_custom.dart';
+import 'package:blnk_project/view/screens/home/data_screen.dart';
 import 'package:blnk_project/view_model/cubit/blnk_cubit/blnk_cubit.dart';
 import 'package:blnk_project/view_model/utils/app_color.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -34,6 +35,22 @@ class HomeScreen extends StatelessWidget {
                 fontSize: 20.sp,
               ),
             ),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DataScreen(),
+                    ),
+                  );
+                },
+                icon: Icon(Icons.dataset_linked_outlined, size: 30.sp),
+              ),
+              SizedBox(
+                width: 10.w,
+              ),
+            ],
           ),
           body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
@@ -443,7 +460,7 @@ class HomeScreen extends StatelessWidget {
                   width: MediaQuery.of(context).size.width / 2,
                   child: ElevatedButtonCustom(
                     onPressed: cubit.submitLoading
-                        ? (){}
+                        ? () {}
                         : () {
                             cubit.submitForm();
                           },
@@ -460,7 +477,9 @@ class HomeScreen extends StatelessWidget {
                     colors: AppColors.darkBlue,
                   ),
                 ),
-                SizedBox(height: 10.h,),
+                SizedBox(
+                  height: 10.h,
+                ),
               ],
             ),
           ),

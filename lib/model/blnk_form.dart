@@ -25,8 +25,8 @@ class BlnkForm {
       lastName: json['lastName'],
       address: json['address'],
       area: json['area'],
-      landLine: json['landLine'],
-      mobile: json['mobile'],
+      landLine: json['landLine'].toString(),
+      mobile: json['mobile'].toString(),
       frontID: json['frontID'],
       backID: json['backID'],
     );

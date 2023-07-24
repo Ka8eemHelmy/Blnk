@@ -7,7 +7,6 @@ import 'package:dio/dio.dart';
 import 'package:edge_detection/edge_detection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -74,11 +73,7 @@ class BlnkCubit extends Cubit<BlnkState> {
     emit(CheckIconsState());
   }
 
-  final ImagePicker picker = ImagePicker();
-  XFile? image;
-
-  final ImagePicker frontPicker = ImagePicker();
-  XFile? frontImage;
+  // final ImagePicker frontPicker = ImagePicker();
 
   String frontBase64Image = '';
   String backBase64Image = '';
@@ -95,6 +90,20 @@ class BlnkCubit extends Cubit<BlnkState> {
       submitLoading = false;
       log(value.data);
       showToast(message: 'Submitted Successfully');
+
+      firstNameController.clear();
+      lastNameController.clear();
+      addressController.clear();
+      areaController.clear();
+      landlineController.clear();
+      mobileController.clear();
+      frontIdError = !true;
+      frontBase64Image = '';
+      frontImagePath = '';
+      backIdError = !true;
+      backBase64Image = '';
+      backImagePath = '';
+
       emit(SubmitFormSuccessState());
     }).catchError((onError) {
       submitLoading = false;
@@ -203,6 +212,27 @@ class BlnkCubit extends Cubit<BlnkState> {
         areas.add('$element');
       });
       print(areas);
+      emit(GetAreasSuccessState());
+    });
+  }
+
+  List<BlnkForm> data = [];
+
+  Future<void> getData() async {
+    data = [];
+    emit(GetAreasLoadingState());
+    await DioHelper.getData(
+      url: '',
+      queryParameters: {
+        'data': 'data',
+      },
+    ).then((value) {
+      print(value.data);
+      value.data.forEach((element){
+        data.add(BlnkForm.fromJson(element));
+      });
+      data = data.reversed.toList();
+      print(data);
       emit(GetAreasSuccessState());
     });
   }
